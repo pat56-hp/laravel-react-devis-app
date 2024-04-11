@@ -1,0 +1,43 @@
+.PhoneInput {
+    display: flex;
+    border: 1px solid rgba(120, 130, 140, 0.13);
+    background: #F1F4F5;
+    gap: 10px;
+    justify-content: center;
+}
+
+input[type=tel]{
+    border: none;
+    background: #F1F4F5;
+    color: #000;
+    border-radius: 0;
+    box-shadow: none;
+    font-family: "Poppins", sans-serif;
+    height: 45px;
+    width: 100%;
+}
+
+.PhoneInputCountry{
+    position: relative;
+    width: 47px
+}
+
+.PhoneInputCountrySelect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    border: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.PhoneInputCountryIconUnicode, .PhoneInputCountryIcon{
+    font-size: 30px !important;
+    padding: 0 5px !important;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+}
