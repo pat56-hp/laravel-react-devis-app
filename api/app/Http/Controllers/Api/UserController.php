@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClientResource;
 use App\Http\Resources\UserResource;
+use App\Models\Client;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +17,19 @@ class UserController extends Controller
 {
     public function __construct(){
         $this->middleware('auth:api');
+    }
+
+    public function getdatas(){
+        $data = [
+            'totalProject' => Project::all()->count(),
+            'totalProjectEnCours' => Project::where('status', 1)->count(),
+            'totalProjectTermine' => Project::where('status', 2)->count(),
+            'clients' => ClientResource::collection(
+                Client::orderByDesc('created_at')->withCount('projects')->take(10)->get()
+            )
+        ];
+
+        return response()->json($data);
     }
 
     //Modification du profil

@@ -52,6 +52,7 @@ class FactureController extends Controller
                 'discount' => $request->discount,
                 'remise' => $request->remise,
                 'configRemise' => $request->configRemise,
+                'status' => $request->facture['status'],
             ];
     
             if ($facture = Facture::create($data)) {
@@ -97,7 +98,7 @@ class FactureController extends Controller
      */
     public function show(Facture $facture)
     {
-        $facture->load('elements');
+        $facture->load(['elements', 'project']);
         return response()->json([
             'facture' => $facture
         ]);
@@ -132,6 +133,7 @@ class FactureController extends Controller
                 'discount' => $request->discount,
                 'remise' => $request->remise,
                 'configRemise' => $request->configRemise,
+                'status' => $request->facture['status'],
             ];
     
             if ($facture->update($data)) {
@@ -176,6 +178,21 @@ class FactureController extends Controller
      */
     public function destroy(Facture $facture)
     {
-        //
+        DB::beginTransaction();
+
+        try{
+            $facture->elements()->delete();
+            $facture->delete();
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Facture supprimée avec succès'
+            ]);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Une erreur s\'est produite lors de la suppression : ' . $e->getMessage(),
+            ], 419);
+        }
     }
 }

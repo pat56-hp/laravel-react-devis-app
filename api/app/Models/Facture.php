@@ -31,11 +31,15 @@ class Facture extends Model
     }
 
     public static function reference(){
-        $seed = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+        /* $seed = str_split('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
         shuffle($seed); // probably optional since array_is randomized; this may be redundant
         $rand = '';
         foreach (array_rand($seed, 6) as $k) $rand .= $seed[$k];
 
-        return 'FAC-'.$rand.'-'.(Facture::latest()->first()->id ?? 0) + 1;
+        return 'FAC-'.$rand.'-'.(Facture::latest()->first()->id ?? 0) + 1; */
+
+        $latestFactureId = Facture::latest()->first()->id ?? 1;
+        $factureRef = str_pad(($latestFactureId ?? 0) + 1, 4, '0', STR_PAD_LEFT);
+        return 'FAC-'.$factureRef;
     }
 }
