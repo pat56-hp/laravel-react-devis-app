@@ -112,6 +112,7 @@ export default function ProjectForm({indice}) {
                 setErrors(null)
                 setLoading(false)
                 toast.success('Enregistrement effectué')
+                navigate("/projects")
             })
             .catch(err => {
                 const response = err.response
@@ -140,7 +141,7 @@ export default function ProjectForm({indice}) {
                 _setProject()
                 setErrors(null)
                 setLoading(false)
-                toast.success('Modification effectué')
+                toast.success('Modification effectuée avec succès')
                 navigate('/projects')
             })
             .catch(err => {

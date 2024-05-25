@@ -74,7 +74,7 @@ export default function Client() {
             })
             closeRef.current.click()
             //TODO
-            toast.success('Client créé avec succès')
+            toast.success('Client ajouté avec succès')
         }).catch(err => {
             const response = err.response
             if (response) {
@@ -129,7 +129,7 @@ export default function Client() {
     }
 
     const handleDelete = (cl) => {
-        if (!window.confirm('Êtest-vous sûre de vouloir supprimer ce client ?')) {
+        if (!window.confirm('Êtes-vous sûre de vouloir supprimer ce client ?')) {
             return 
         }
 
@@ -138,6 +138,7 @@ export default function Client() {
             .then(() => {
                 setLoadding(false)
                 getClients()
+                toast.success('Client supprimé avec succès')
             }).catch(err => {
                 const resp = err.response
                 if (resp) {

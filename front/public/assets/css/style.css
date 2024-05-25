@@ -1554,9 +1554,10 @@ svg.pulse-svg .third-circle {
 
 .footer {
   margin-left: 250px;
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
+  bottom: 0;
 }
 .footer .copyright {
   padding: 15px;
@@ -1677,6 +1678,7 @@ svg.pulse-svg .third-circle {
 
 .content-body {
   margin-left: 250px;
+  margin-bottom: 50px;
   z-index: 0;
 }
 

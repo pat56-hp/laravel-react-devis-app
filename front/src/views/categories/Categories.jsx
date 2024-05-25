@@ -3,7 +3,7 @@ import Breadcumb from '../../components/Breadcumb'
 import CategoryModal from './CategoryModal'
 import axiosClient from '../../axios-client'
 import { useNavigate } from 'react-router-dom'
-import Paginator from '../Paginator'
+import { toast } from 'react-toastify'
 
 export default function Categories() {
 
@@ -48,6 +48,7 @@ export default function Categories() {
                     setLoading(false)
                     setErrors(null)
                     closeRef.current.click()
+                    toast.success('Catégorie ajoutée avec succès')
                 })
                 .catch(err => {
                     const response = err.response
@@ -74,6 +75,7 @@ export default function Categories() {
                     setLoading(false)
                     setErrors(null)
                     closeRef.current.click()
+                    toast.success('Catégorie modifiée avec succès')
                 })
                 .catch(err => {
                     const response = err.response

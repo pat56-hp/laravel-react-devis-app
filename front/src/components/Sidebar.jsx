@@ -11,6 +11,10 @@ export default function Sidebar() {
     const handleLogout = (e) => {
         e.preventDefault();
 
+        if (!window.confirm('Êtes-vous sûre de vouloir vous déconnecter ?')) {
+            return
+        }
+
         axiosClient.post('auth/logout')
             .then(() => {
                 setToken(null)

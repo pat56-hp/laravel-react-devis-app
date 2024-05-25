@@ -23,7 +23,8 @@ export default function FactureForm({indice}) {
     const [isLoad, setIsLoad] = useState(false)
     const [facture, setFacture] = useState({
         date: '',
-        project_id:''
+        project_id:'',
+        status: 0
     })
     
     const elementDefault = {
@@ -88,7 +89,8 @@ export default function FactureForm({indice}) {
         setElements([elementDefault])
         setFacture({
             date: '',
-            project_id:''
+            project_id:'',
+            status: 0
         })
         setRemise(0)
         setConfigRemise('%')
@@ -162,8 +164,6 @@ export default function FactureForm({indice}) {
                     configRemise: configRemise,
                     discount: discount,
                 }
-    
-                console.log(payload)
 
                 if (indice === 'add') {
                     createFacture(payload)
@@ -187,9 +187,7 @@ export default function FactureForm({indice}) {
             .catch(err => {
                 const response = err.response
                 if (response && response.status === 422) {
-                    setErrors({
-                        error: response.data.errors
-                    })
+                    setErrors(response.data.errors)
                 }
                 if (response && response.status === 419) {
                     console.log(response.data)
@@ -204,6 +202,7 @@ export default function FactureForm({indice}) {
 
     //Modification de la facture
     const updateFatcure = (payload) => {
+
         axiosClient.put(`factures/update/${id}`, payload)
             .then(() => {
                 defaultValue()
@@ -271,7 +270,8 @@ export default function FactureForm({indice}) {
                     
                     setFacture({
                         date: facture.date,
-                        project_id: facture.project_id
+                        project_id: facture.project_id,
+                        status: facture.status
                     })
 
                     setSousTotal(facture.sousTotal)
@@ -411,6 +411,19 @@ export default function FactureForm({indice}) {
                                                         <td colSpan="3">Total</td>
                                                         <td>{total}</td>
                                                     </tr> 
+                                                    <tr>
+                                                        <td>Statut</td>
+                                                        <td className="w-100" colSpan="3"> 
+                                                            <select 
+                                                                value={facture.status}
+                                                                className='form-control'
+                                                                onChange={e => setFacture({...facture, status: e.target.value})}
+                                                                >
+                                                                <option value="0">Impayée</option>
+                                                                <option value="1">Payée</option>
+                                                            </select>
+                                                        </td>
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>

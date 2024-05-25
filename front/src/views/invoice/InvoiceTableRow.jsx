@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
+import number_format from "../../helpers/numberFormat";
 
 const borderColor = "#A3A9B0";
 const styles = StyleSheet.create({
@@ -33,15 +34,15 @@ const styles = StyleSheet.create({
   }
 });
 
-const InvoiceTableRow = ({ items }) => {
-  const rows = items.map((item) => (
-    <View style={styles.row} key={item.sno.toString()}>
-      <Text style={styles.description}>{item.desc}</Text>
-      <Text style={styles.qty}>{item.qty}</Text>
-      <Text style={styles.rate}>{item.rate}</Text>
-      <Text style={styles.amount}>{(item.qty * item.rate).toFixed(2)}</Text>
-    </View>
-  ));
+const InvoiceTableRow = ({ elements }) => {
+  const rows = elements.length > 0 ? elements.map((element, key) => (
+    <View style={styles.row} key={key}>
+      <Text style={styles.description}>{element.libelle}</Text>
+      <Text style={styles.qty}>{element.qty}</Text>
+      <Text style={styles.rate}>{number_format(element.prix, 0, ' ', ' ')} FCFA</Text>
+      <Text style={styles.amount}>{number_format((element.qty * element.prix), 0, ' ', ' ')} FCFA</Text>
+    </View> 
+  )) : 'Aucun';
   return <>{rows}</>;
 };
 

@@ -3,6 +3,7 @@ import Breadcumb from '../../components/Breadcumb'
 import axiosClient from '../../axios-client'
 import { useNavigate } from 'react-router-dom'
 import Paginator from '../Paginator'
+import { toast } from 'react-toastify'
 
 export default function User() {
 
@@ -71,6 +72,7 @@ export default function User() {
             setIsUpdating(false)
             setLoading(false)
             closeRef.current.click()
+            toast.success('Utilisateur ajouté avec succès')
         })
         .catch(err => {
           const response = err.response
@@ -105,6 +107,7 @@ export default function User() {
             setIsUpdating(false)
             setLoading(false)
             closeRef.current.click()
+            toast.success('Utilisateur modifié avec succès')
         })
         .catch(err => {
           const response = err.response
@@ -138,6 +141,7 @@ export default function User() {
     .then(() => {
       setLoading(false)
       getUsers()
+      toast.success(`Utilisateur ajouté ${ user.status === 1 ? 'désactivé' : 'activé' } avec succès`)
     })
     .catch(err => {
       const response = err.response
@@ -157,6 +161,7 @@ export default function User() {
       .then(() => {
         setLoading(false)
         getUsers()
+        toast.success('Utilisateur supprimé avec succès')
       })
       .catch(err => {
         const response = err.response

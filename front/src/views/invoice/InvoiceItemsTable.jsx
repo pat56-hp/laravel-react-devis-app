@@ -52,23 +52,24 @@ const styles = StyleSheet.create({
   }
 });
 
-const InvoiceItemsTable = ({ invoice }) => (
-  <View style={styles.tableContainer}>
-    {/* Invoice Table Header */}
-    <View style={styles.container}>
-      <Text style={styles.description}>Libéllé</Text>
-      <Text style={styles.qty}>Qté</Text>
-      <Text style={styles.rate}>Prix u.</Text>
-      <Text style={styles.amount}>Total</Text>
+const InvoiceItemsTable = ({ elements }) => {
+
+  return (
+    <View style={styles.tableContainer}>
+      {/* Invoice Table Header */}
+      <View style={styles.container}>
+        <Text style={styles.description}>Libéllé</Text>
+        <Text style={styles.qty}>Qté</Text>
+        <Text style={styles.rate}>Prix u.</Text>
+        <Text style={styles.amount}>Total</Text>
+      </View>
+      {/* Invoice Table Rows */}
+      <InvoiceTableRow elements={elements} />
+      <View >
+        <Text></Text>
+      </View>
     </View>
-    {/* Invoice Table Rows */}
-    <InvoiceTableRow items={invoice.items} />
-    <table>
-      <tr>
-        <th>...kkfkkr</th>
-      </tr>
-    </table>
-  </View>
-);
+  );
+};
 
 export default InvoiceItemsTable;

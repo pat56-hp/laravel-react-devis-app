@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Document, Text, Page, PDFViewer, StyleSheet, View } from '@react-pdf/renderer';
 import InvoiceComponent from '../invoice/InvoiceComponent';
-import InvoiceData from '../invoice/InvoiceData';
 import axiosClient from '../../axios-client';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function FacturePdf() {
     const {id} = useParams()
     const navigate = useNavigate()
-    const [facture, setFacture] = useState([])
+    const [facture, setFacture] = useState(null)
 
     const styles = StyleSheet.create({
         page: {
@@ -32,8 +31,6 @@ export default function FacturePdf() {
           },
       });
 
-    const invoice = InvoiceData
-
     const getFacture = () => {
         axiosClient.get(`/factures/show/${id}`)
             .then(({data}) => {
@@ -51,14 +48,13 @@ export default function FacturePdf() {
         getFacture()
     }, [])
 
-
   return (
-    <PDFViewer style={{ width: "100%", height: "700px" }}>
+    <PDFViewer style={{ width: "100%", height: "650px" }}>
         <Document>
             <Page size="A4" style={styles.page}>
-                <InvoiceComponent invoice={invoice} />
+                {facture && <InvoiceComponent facture={facture} />}
             </Page>
         </Document>
     </PDFViewer>
-  )
+  );
 }

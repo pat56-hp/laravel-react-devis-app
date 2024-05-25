@@ -56,7 +56,7 @@ export default function DefaultLayout() {
               </div>
               <div className="footer">
                 <div className="copyright">
-                    <p>Copyright &copy; <Link to="#">Ameen</Link> 2018</p>
+                    <p>Copyright &copy; <Link to="/dashboard">DEVIS APP</Link> {new Date(Date.now()).getFullYear()}</p>
                 </div>
               </div>
             </>

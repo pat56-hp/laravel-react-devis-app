@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import Breadcumb from '../../components/Breadcumb'
 import { Link, useNavigate } from 'react-router-dom'
 import axiosClient from '../../axios-client'
+import { toast } from 'react-toastify'
+import number_format from "../../helpers/numberFormat";
 
 export default function Facture() {
     const [factures, setFactures] = useState([])
@@ -22,6 +24,26 @@ export default function Facture() {
             .catch(err => {
                 const resp = err.response
                 if (resp && resp.status === 401) {
+                    navigate('/login')
+                }
+                setLoading(false)
+            })
+    }
+
+    const deleteFacture = (id) => {
+        if (!window.confirm('Êtes-vous sûre de vouloir supprimer cette facture ?')) {
+            return 
+        }
+        setLoading(true)
+        axiosClient.delete('/factures/delete/' + id)
+            .then(() => {
+                setLoading(false)
+                getFacture()
+                toast.success('Facture supprimée avec succès')
+            })
+            .catch(err => {
+                const resp = err.response
+                if(resp && resp.status === 401){
                     navigate('/login')
                 }
                 setLoading(false)
@@ -81,11 +103,10 @@ export default function Facture() {
                                                         <td>{facture.ref}</td>
                                                         <td>{facture.project}</td>
                                                         <td>{facture.client}</td>
-                                                        <td>{facture.total}</td>
+                                                        <td>{number_format(facture.total, 0, ' ', ' ')} FCFA</td>
                                                         <td>
-                                                            {facture.status === 0 && <span className="badge badge-warning">En attente</span>}
-                                                            {facture.status === 1 && <span className="badge badge-primary">En cours</span>}
-                                                            {facture.status === 2 && <span className="badge badge-success">Terminé</span>}
+                                                            {facture.status === 0 && <span className="badge badge-warning">Impayée</span>}
+                                                            {facture.status === 1 && <span className="badge badge-primary">Payée</span>}
                                                         </td>
                                                         <td>{facture.created_at}</td>
                                                         <td>
@@ -107,6 +128,7 @@ export default function Facture() {
                                                                 <i className='mdi mdi-file-send'></i>
                                                             </button>
                                                             <button
+                                                                onClick={() => deleteFacture(facture.id)}
                                                                 title='Supprimer'
                                                                 className='ml-2 btn btn-rounded btn-danger p-1'><i className='mdi mdi-delete'></i></button>
                                                         </td>

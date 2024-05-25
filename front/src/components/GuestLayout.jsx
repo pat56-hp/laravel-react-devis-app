@@ -27,7 +27,8 @@ export default function GuestLayout() {
                             <div className="card-body">
                                 <div className="logo text-center">
                                     <Link to="/dashboard">
-                                        <img src="/assets/images/f-logo.png" alt="" />
+                                        {/* <img src="/assets/images/f-logo.png" alt="" /> */}
+                                        <h2>DEVIS APP</h2>
                                     </Link>
                                 </div>
                                 <Outlet/>

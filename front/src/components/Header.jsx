@@ -6,12 +6,13 @@ export default function Header() {
   return (
     <div className="header">
         <div className="nav-header">
-            <div className="brand-logo">
+            <div className="brand-logo mt-2">
                 <Link to="/">
-                    <b>
-                    <img src="/assets/images/logo.png" alt="" /> 
+                    <b className=''>
+                    {/* <img src="/assets/images/logo.png" alt="" />  */}
+                    DEVIS APP
                     </b>
-                    <span className="brand-title"><img src="../../assets/images/logo-text.png" alt="" /></span>
+                    {/* <span className="brand-title"><img src="../../assets/images/logo-text.png" alt="" /></span> */}
                 </Link>
             </div>
             <div className="nav-control">
@@ -20,26 +21,7 @@ export default function Header() {
             </div>
         </div>
         <div className="header-content">
-            <div className="header-left">
-                <ul>
-                    <li className="icons position-relative">
-                        <Link to="void(0)"><i className="icon-magnifier f-s-16"></i></Link>
-                        <div className="drop-down animated bounceInDown">
-                            <div className="dropdown-content-body">
-                                <div className="header-search" id="header-search">
-                                    <form action="#">
-                                        <div className="input-group">
-                                            <input type="text" className="form-control" placeholder="Search" />
-                                            <div className="input-group-append"><span className="input-group-text"><i className="icon-magnifier"></i></span>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            
             <div className="header-right">
                 <ul>
                     <li className="icons">
