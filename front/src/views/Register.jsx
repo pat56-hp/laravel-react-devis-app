@@ -39,7 +39,7 @@ export default function Register() {
                 navigate('/dashboard')
             }).catch(err => {
                 const response = err.response
-                if (response && response.status === 422) {
+                if (response && response.status == 422) {
                     setErrors(response.data.errors)
                 }
             })

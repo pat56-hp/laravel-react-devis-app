@@ -13,7 +13,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $perPage = 10;
+    protected $perPage = 50;
     /**
      * The attributes that are mass assignable.
      *
@@ -22,9 +22,25 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'role',
+        'phone',
+        'adresse',
+        'profession',
         'password',
         'status'
     ];
+
+    public static function boot(){
+        parent::boot();
+        static::deleting(function(User $user){
+            $user->factures->each(function($facture){
+                $facture->elements()->delete();
+            });
+            $user->factures()->delete();
+            $user->projects()->delete();
+            $user->clients()->delete();
+        });
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,5 +74,17 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function clients(){
+        return $this->hasMany(Client::class);
+    }
+
+    public function factures(){
+        return $this->hasMany(Facture::class);
+    }
+
+    public function projects(){
+        return $this->hasMany(Project::class);
     }
 }

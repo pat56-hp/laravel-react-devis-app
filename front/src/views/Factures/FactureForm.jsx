@@ -44,9 +44,9 @@ export default function FactureForm({indice}) {
     const handleChangeRemise = (e) => {
         setDiscount(() => {
             let newRemise = 0
-            let discount = newRemise = e.target.value === '' ? 0 : e.target.value
+            let discount = newRemise = e.target.value == '' ? 0 : e.target.value
 
-            if (configRemise === '%') {
+            if (configRemise == '%') {
                 newRemise = (discount / 100) * sousTotal
                 console.log(newRemise)
             }else if(configRemise !== 'amount' && configRemise !== '%'){
@@ -69,7 +69,7 @@ export default function FactureForm({indice}) {
             let newRemise = discount
             
 
-            if (newSelectRemise === '%') {
+            if (newSelectRemise == '%') {
                 newRemise = (discount / 100) * sousTotal
             }else if(newSelectRemise !== 'amount' && newSelectRemise !== '%'){
                 return
@@ -106,7 +106,7 @@ export default function FactureForm({indice}) {
         setLoading(true)
         setErrors(null)
         setTimeout(() => {
-            if (facture.date.length === 0) {
+            if (facture.date.length == 0) {
                 setErrors({
                     error: 'La date de la facture est obligatoire'
                 })
@@ -114,7 +114,7 @@ export default function FactureForm({indice}) {
                 return
             }
     
-            if (facture.project_id.length === 0) {
+            if (facture.project_id.length == 0) {
                 setErrors({
                     error: 'Le projet est obligatoire'
                 })
@@ -122,7 +122,7 @@ export default function FactureForm({indice}) {
                 return
             }
     
-            if (elements.length === 0) {
+            if (elements.length == 0) {
                 setErrors({
                     error: 'Veuillez ajouter au moins un élément à la facture'
                 })
@@ -131,21 +131,21 @@ export default function FactureForm({indice}) {
             }
 
             elements.forEach((element, index) => {
-                if (element.libelle.length === 0) {
+                if (element.libelle.length == 0) {
                     setErrors({
                         error: 'Veuillez renseigner le libéllé de l\'élément '+ (index+1)
                     })
                     setLoading(false)
                     return
                 }
-                if (element.qty.length === 0) {
+                if (element.qty.length == 0) {
                     setErrors({
                         error: 'Veuillez renseigner la quantité de l\'élément '+ (index++)
                     })
                     setLoading(false)
                     return
                 }
-                if (element.prix.length === 0) {
+                if (element.prix.length == 0) {
                     setErrors({
                         error: 'Veuillez renseigner le prix de l\'élément '+ (index++)
                     })
@@ -154,7 +154,7 @@ export default function FactureForm({indice}) {
                 }
             })
 
-            if (errors === null) {
+            if (errors == null) {
                 const payload = {
                     facture: facture,
                     elements: elements,
@@ -165,7 +165,7 @@ export default function FactureForm({indice}) {
                     discount: discount,
                 }
 
-                if (indice === 'add') {
+                if (indice == 'add') {
                     createFacture(payload)
                 }else{
                     updateFatcure(payload)
@@ -186,14 +186,13 @@ export default function FactureForm({indice}) {
             })
             .catch(err => {
                 const response = err.response
-                if (response && response.status === 422) {
+                if (response && response.status == 422) {
                     setErrors(response.data.errors)
                 }
-                if (response && response.status === 419) {
-                    console.log(response.data)
+                if (response && response.status == 419) {
                     toast.error('Oups, une erreur s\'est produite. L\'enregistrement n\'a pu être éffectué')
                 }
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
                 setLoading(false)
@@ -212,16 +211,14 @@ export default function FactureForm({indice}) {
             })
             .catch(err => {
                 const response = err.response
-                if (response && response.status === 422) {
-                    setErrors({
-                        error: response.data.errors
-                    })
+                if (response && response.status == 422) {
+                    setErrors(response.data.errors)
                 }
-                if (response && response.status === 419) {
+                if (response && response.status == 419) {
                     console.log(response.data)
                     toast.error('Oups, une erreur s\'est produite. L\'enregistrement n\'a pu être éffectué')
                 }
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
                 setLoading(false)
@@ -234,7 +231,7 @@ export default function FactureForm({indice}) {
             .then(({data}) => {
                 const projects = []
                 data.data.forEach(project => {
-                    if (project.status !== 2) {
+                    if (project.status != 2) {
                         projects.push({
                             value: project.id,
                             label: project.title
@@ -246,7 +243,7 @@ export default function FactureForm({indice}) {
             })
             .catch(err => {
                 const resp = err.response
-                if (resp && resp.status === 401) {
+                if (resp && resp.status == 401) {
                     navigate('/login')
                 }
                 setIsLoad(false)
@@ -283,7 +280,7 @@ export default function FactureForm({indice}) {
                 })
                 .catch(err => {
                     const resp = err.response
-                    if (resp && resp.status === 401) {
+                    if (resp && resp.status == 401) {
                         navigate('/login')
                     }
                     setIsLoad(false)
@@ -340,15 +337,15 @@ export default function FactureForm({indice}) {
                                     <div className='col-md-6'>
                                         <label htmlFor='date'>Projet <span className='text-danger'>*</span></label>
                                         <Select 
-                                            value={projectOptions.filter(project => project.value === facture.project_id)}
+                                            value={projectOptions.filter(project => project.value == facture.project_id)}
                                             options={projectOptions}
                                             onChange={(project) => setFacture({...facture, project_id: project.value})}
                                         />
                                     </div>
-                                    <div className='col-md-12 mt-5'>
+                                    {/* <div className='col-md-12 mt-5'>
                                         <h4>Eléments de facture</h4>
                                         <hr/>
-                                    </div>
+                                    </div> */}
                                     <div className='col-md-12'>
                                         <div className='element-items'>
                                             {

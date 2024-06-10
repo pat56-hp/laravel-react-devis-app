@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { tailChase } from 'ldrs'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
+import execution from '../../helpers/execution'
 
 export default function ProjectForm({indice}) {
 
@@ -68,7 +69,7 @@ export default function ProjectForm({indice}) {
         setErrors(null)
         
         setTimeout(() => {
-            if (project.title.length === 0) {
+            if (project.title.length == 0) {
                 setErrors({
                     error: 'Le titre du projet est requis'
                 })
@@ -76,7 +77,7 @@ export default function ProjectForm({indice}) {
                 return
             }
     
-            if (project.category_id.length === 0) {
+            if (project.category_id.length == 0) {
                 setErrors({
                     error: 'La catégorie du projet est requise'
                 })
@@ -84,7 +85,7 @@ export default function ProjectForm({indice}) {
                 return
             }
     
-            if (project.description.length === 0) {
+            if (project.description.length == 0) {
                 setErrors({
                     error: 'Veuillez donner une courte description du projet'
                 })
@@ -92,7 +93,7 @@ export default function ProjectForm({indice}) {
                 return
             }
 
-            if (indice === 'new') {
+            if (indice == 'new') {
                 createProject(project)
             }else{
                 updateProject(project)
@@ -116,13 +117,13 @@ export default function ProjectForm({indice}) {
             })
             .catch(err => {
                 const response = err.response
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
-                if (response && response.status === 422) {
+                if (response && response.status == 422) {
                     setErrors(response.data.errors)
                 }
-                if (response && response.status === 419) {
+                if (response && response.status == 419) {
                     toast.error('Oups, une erreur s\'est produite. L\'enregistrement n\'a pu être éffectué')
                 }
 
@@ -147,13 +148,13 @@ export default function ProjectForm({indice}) {
             .catch(err => {
                 const response = err.response
                 console.log(response)
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
-                if (response && response.status === 422) {
+                if (response && response.status == 422) {
                     setErrors(response.data.errors)
                 }
-                if (response && response.status === 419) {
+                if (response && response.status == 419) {
                     toast.error('Oups, une erreur s\'est produite. L\'enregistrement n\'a pu être éffectué')
                 }
                 setLoading(false)
@@ -165,7 +166,7 @@ export default function ProjectForm({indice}) {
         axiosClient.get('/categories')
             .then(({data}) => {
                 const catActive = data.data
-                    .filter(item => item.status === 1)
+                    .filter(item => item.status == 1)
                     .map(item => ({
                         value: item.id,
                         label: item.libelle
@@ -175,7 +176,7 @@ export default function ProjectForm({indice}) {
             })
             .catch(err => {
                 const response = err.response
-                if (response &&response.status === 401) {
+                if (response &&response.status == 401) {
                     navigate('/login')
                 }
             })
@@ -195,7 +196,7 @@ export default function ProjectForm({indice}) {
             })
             .catch(err => {
                 const response = err.response
-                if (response &&response.status === 401) {
+                if (response &&response.status == 401) {
                     navigate('/login')
                 }
             })
@@ -218,7 +219,7 @@ export default function ProjectForm({indice}) {
                 })
                 .catch(err => {
                     const response = err.response
-                    if (response &&response.status === 401) {
+                    if (response &&response.status == 401) {
                         navigate('/login')
                     }
                 })
@@ -269,7 +270,7 @@ export default function ProjectForm({indice}) {
                                 <div className='col-md-6 -b-3'>
                                     <label htmlFor='title'>Catégorie <span className='text-danger'>*</span></label>
                                     <Select 
-                                        value={categoryOptions.find(option => option.value === project.category_id)}
+                                        value={categoryOptions.find(option => option.value == project.category_id)}
                                         options={categoryOptions} 
                                         onChange={(selectOption) => setProject({...project, category_id: selectOption.value})}
                                     />
@@ -277,7 +278,7 @@ export default function ProjectForm({indice}) {
                                 <div className='col-md-6 -b-3'>
                                     <label htmlFor='title'>Client <span className='text-danger'>*</span></label>
                                     <Select 
-                                        value={clientOptions.find(option => option.value === project.client_id)}
+                                        value={clientOptions.find(option => option.value == project.client_id)}
                                         options={clientOptions} 
                                         onChange={(selectOption) => setProject({...project, client_id: selectOption.value})}
                                     />

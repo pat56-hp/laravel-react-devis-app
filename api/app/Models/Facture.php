@@ -19,8 +19,13 @@ class Facture extends Model
         'status',
         'send',
         'project_id',
+        'user_id',
         'date'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     public function project(){
         return $this->belongsTo(Project::class)->with('client');

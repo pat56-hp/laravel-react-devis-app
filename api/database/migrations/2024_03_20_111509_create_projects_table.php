@@ -15,6 +15,7 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('category_id')->constrained('categories', 'id');
             $table->foreignId('client_id')->constrained('clients', 'id');
             $table->string('title');

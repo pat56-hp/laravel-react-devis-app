@@ -16,6 +16,7 @@ class CreateFacturesTable extends Migration
         Schema::create('factures', function (Blueprint $table) {
             $table->id();
             $table->foreignId('project_id')->constrained('projects', 'id');
+            $table->foreignId('user_id')->constrained('users', 'id');
             $table->string('ref');
             $table->integer('discount')->default(0);
             $table->double('remise')->default(0);

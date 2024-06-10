@@ -23,7 +23,8 @@ class FactureResource extends JsonResource
             'total' => $this->total,
             'status' => $this->status,
             'created_at' => $this->created_at->format('d/m/Y à H:m'),
-            'elements' => $this->elements
+            'elements' => $this->elements,
+            'user' => $this->user,
         ];
     }
 }

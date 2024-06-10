@@ -6,7 +6,6 @@ import NotFound from "./views/NotFound";
 import GuestLayout from "./components/GuestLayout";
 import DefaultLayout from "./components/DefaultLayout";
 import User from "./views/users/User";
-import Profile from "./views/Profile";
 import Client from "./views/clients/Client";
 import Project from "./views/projects/Project";
 import Categories from "./views/categories/Categories";
@@ -14,6 +13,7 @@ import ProjectForm from "./views/projects/ProjectForm";
 import Facture from "./views/Factures/Facture";
 import FactureForm from "./views/Factures/FactureForm";
 import FacturePdf from "./views/Factures/FacturePdf";
+import Layout from "./views/profile/Layout";
 
 const router = createBrowserRouter([
     {
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/profile',
-                element: <Profile />
+                element: <Layout />
             },
             {
                 path: '/users',

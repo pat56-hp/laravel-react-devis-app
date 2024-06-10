@@ -38,7 +38,7 @@ export default function FacturePdf() {
             })
             .catch(err => {
                 const resp = err.response
-                if (resp && resp.status === 401) {
+                if (resp && resp.status == 401) {
                     navigate('/login')
                 }
             })

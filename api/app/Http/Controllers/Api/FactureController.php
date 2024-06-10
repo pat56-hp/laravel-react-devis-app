@@ -19,7 +19,10 @@ class FactureController extends Controller
     public function index()
     {
         return FactureResource::collection(
-            Facture::with('project')->orderByDesc('created_at')->get()
+            auth()->user()->role == 1
+            ? Facture::with('project')->orderByDesc('created_at')->get()
+            : Facture::where('user_id', auth()->id())->with('project')->orderByDesc('created_at')->get(),
+            
         );
     }
 
@@ -53,6 +56,7 @@ class FactureController extends Controller
                 'remise' => $request->remise,
                 'configRemise' => $request->configRemise,
                 'status' => $request->facture['status'],
+                'user_id' => auth()->id(),
             ];
     
             if ($facture = Facture::create($data)) {
@@ -134,6 +138,7 @@ class FactureController extends Controller
                 'remise' => $request->remise,
                 'configRemise' => $request->configRemise,
                 'status' => $request->facture['status'],
+                'user_id' => auth()->id(),
             ];
     
             if ($facture->update($data)) {

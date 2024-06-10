@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $perPage = 10;
+    protected $perPage = 50;
 
     protected $fillable = [
         'category_id',
@@ -20,7 +20,12 @@ class Project extends Model
         'status',
         'begin_date',
         'end_date',
+        'user_id'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 
     public function category(){
         return $this->belongsTo(Categorie::class);

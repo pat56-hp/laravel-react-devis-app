@@ -43,9 +43,9 @@ export default function Login() {
         })
         .catch(err => {
           const response = err.response
-          if (response && response.status === 422) {
+          if (response && response.status == 422) {
             setErrors(response.data.errors)
-          }else if(response && response.status === 401) {
+          }else if(response && response.status == 401) {
             setUnAuthorised(response.data.error)
           }
           setLoading(false)

@@ -20,7 +20,8 @@ class ClientResource extends JsonResource
             'phone' => $this->phone,
             'email' => $this->email,
             'created_at' => $this->created_at->format('d/m/Y à H:m'),
-            'total_project' => $this->projects_count
+            'total_project' => $this->projects_count,
+            'user' => $this->user,
         ];
     }
 }

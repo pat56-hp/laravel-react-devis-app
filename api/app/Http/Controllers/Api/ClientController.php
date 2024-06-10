@@ -21,7 +21,9 @@ class ClientController extends Controller
     public function index()
     {
         return ClientResource::collection(
-            Client::orderByDesc('created_at')->withCount('projects')->paginate()
+            auth()->user()->role == 1 
+            ? Client::orderByDesc('created_at')->withCount('projects')->paginate()
+            : Client::where('user_id', auth()->id())->orderByDesc('created_at')->withCount('projects')->paginate()
         );
     }
 
@@ -38,6 +40,8 @@ class ClientController extends Controller
             'phone' => 'required|string|max:255',
             'email' => ['nullable', 'email', Rule::unique('clients')->where(fn($q) => $q->whereNotNull('email'))]
         ]);
+
+        $data['user_id'] = auth()->id();
 
         if (Client::create($data)) {
             return response()->json([
@@ -75,6 +79,8 @@ class ClientController extends Controller
             'phone' => 'required|string|max:255',
             'email' => ['nullable', 'email', Rule::unique('clients')->where(fn($q) => $q->whereNotNull('email')->where('id', '!=', $client->id))]
         ]);
+
+        $data['user_id'] = auth()->id();
 
         if ($client->update($data)) {
             return response()->json([

@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useStateContext } from '../contexts/ContextProvider'
 
 export default function Header() {
+
+    const {user} = useStateContext()
 
   return (
     <div className="header">
@@ -25,7 +28,7 @@ export default function Header() {
             <div className="header-right">
                 <ul>
                     <li className="icons">
-                        <Link to="/profile"><i className="mdi mdi-account f-s-20" aria-hidden="true"></i></Link>
+                     <Link to="/profile"><i className="mdi mdi-account f-s-20" aria-hidden="true"></i> <span className='f-s-15'>{user.name}</span></Link>
                     </li>
                 </ul>
             </div>

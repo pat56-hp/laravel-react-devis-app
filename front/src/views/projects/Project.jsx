@@ -6,9 +6,10 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import Loader from '../../components/Loader'
 import { toast } from 'react-toastify'
+import { useStateContext } from '../../contexts/ContextProvider'
 
 export default function Project() {
-
+    const {user} = useStateContext()
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -27,7 +28,7 @@ export default function Project() {
             .catch(err => {
                 const response = err.response
                 setLoading(false)
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
             })
@@ -48,7 +49,7 @@ export default function Project() {
             .catch(err => {
                 const response = err.response
                 setLoading(false)
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
             })
@@ -107,11 +108,11 @@ export default function Project() {
                                                             <td><span className="badge badge-primary">{project.category?.libelle}</span></td>
                                                             <td>{project.client?.name}</td>
                                                             <td>
-                                                                {project.status === 0 && <span className="badge badge-warning">En attente</span>}
-                                                                {project.status === 1 && <span className="badge badge-primary">En cours</span>}
-                                                                {project.status === 2 && <span className="badge badge-success">Terminé</span>}
+                                                                {project.status == 0 && <span className="badge badge-warning">En attente</span>}
+                                                                {project.status == 1 && <span className="badge badge-primary">En cours</span>}
+                                                                {project.status == 2 && <span className="badge badge-success">Terminé</span>}
                                                             </td>
-                                                            <td>{project.created_at}</td>
+                                                            <td>{project.created_at} {project.user && user.role == 1 && `par ${project.user.name}`}</td>
                                                             <td>
                                                                 <button
                                                                     onClick={() => editProject(project.id)}

@@ -23,6 +23,7 @@ class ProjectResource extends JsonResource
             'created_at' => $this->created_at->format('d/m/Y à H:i'),
             'category' => $this->category,
             'client' => $this->client,
+            'user' => $this->user,
         ];
     }
 }

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useStateContext } from '../contexts/ContextProvider';
 import axiosClient from '../axios-client';
 
 export default function Sidebar() {
 
-    const {setToken, setUser} = useStateContext()
+    const {setToken, setUser, user} = useStateContext()
     const navigate = useNavigate()
 
     const handleLogout = (e) => {
@@ -36,11 +36,14 @@ export default function Sidebar() {
                     <NavLink to="/dashboard" className={({isActive}) => (isActive ? 'active' : '' )}><i className=" mdi mdi-view-dashboard"></i> <span className="nav-text">Tableau de bord</span>
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink to="/users" className={(isActive) => (isActive ? 'active' : '')}>
-                        <i className="mdi mdi-account"></i> <span className="nav-text">Utilisateurs</span>
-                    </NavLink>
-                </li>
+                {
+                    user.role == 1 && 
+                    <li>
+                        <NavLink to="/users" className={(isActive) => (isActive ? 'active' : '')}>
+                            <i className="mdi mdi-account"></i> <span className="nav-text">Utilisateurs</span>
+                        </NavLink>
+                    </li>
+                }
                 <li>
                     <NavLink to="/clients" className={(isActive) => (isActive ? 'active' : '')}>
                         <i className="mdi mdi-account-multiple-plus"></i> <span className="nav-text">Clients</span>
@@ -51,11 +54,14 @@ export default function Sidebar() {
                         <i className="mdi mdi-folder"></i> <span className="nav-text">Projets</span>
                     </NavLink>
                 </li>
-                <li>
-                    <NavLink to="/projects/categories" className={(isActive) => (isActive ? 'active' : '')}>
-                        <i className="mdi mdi-folder-open"></i> <span className="nav-text">Categories</span>
-                    </NavLink>
-                </li>
+                {
+                    user.role == 1 && 
+                    <li>
+                        <NavLink to="/projects/categories" className={(isActive) => (isActive ? 'active' : '')}>
+                            <i className="mdi mdi-folder-open"></i> <span className="nav-text">Categories</span>
+                        </NavLink>
+                    </li>
+                }
                 <li>
                     <NavLink to="/factures" className={(isActive) => (isActive ? 'active' : '')}>
                         <i className="mdi mdi-credit-card"></i> <span className="nav-text">Factures</span>

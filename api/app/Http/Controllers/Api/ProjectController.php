@@ -17,7 +17,10 @@ class ProjectController extends Controller
     public function index()
     {
         return ProjectResource::collection(
-            Project::orderByDesc('created_at')->with(['category', 'client'])->get()
+            auth()->user()->role == 1 
+                ? Project::orderByDesc('created_at')->with(['category', 'client'])->get()
+                : Project::where('user_id', auth()->id())->orderByDesc('created_at')->with(['category', 'client'])->get(),
+           
         );
     }
 
@@ -62,7 +65,8 @@ class ProjectController extends Controller
             'end_date' => $request->end_date,
             'description' => $request->description,
             'status' => $request->status,
-            'file' => $urlFile ?? null
+            'file' => $urlFile ?? null,
+            'user_id' => auth()->id()
         ];
 
         if (Project::create($data)) {
@@ -131,7 +135,8 @@ class ProjectController extends Controller
             'end_date' => $request->end_date,
             'description' => $request->description,
             'status' => $request->status,
-            'file' => $urlFile ?? $project->file
+            'file' => $urlFile ?? $project->file,
+            'user_id' => auth()->id()
         ];
 
         if ($project->update($data)) {

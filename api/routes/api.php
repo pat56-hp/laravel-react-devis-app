@@ -37,6 +37,7 @@ Route::group(['middleware' => 'api'], function() {
     Route::get('/getdatas', [UserController::class, 'getdatas']);
 
     Route::post('profile', [UserController::class,'profile']);
+    Route::post('password/update', [UserController::class,'updatePassword']);
 
     Route::group(['prefix' => 'users'], function(){
         Route::get('/', [UserController::class, 'index']);

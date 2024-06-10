@@ -21,11 +21,13 @@ class UserController extends Controller
 
     public function getdatas(){
         $data = [
-            'totalProject' => Project::all()->count(),
-            'totalProjectEnCours' => Project::where('status', 1)->count(),
-            'totalProjectTermine' => Project::where('status', 2)->count(),
+            'totalProject' => auth()->user()->role == 1 ? Project::all()->count() : auth()->user()->projects->count(),
+            'totalProjectEnCours' => auth()->user()->role == 1 ? Project::where('status', 1)->count() : auth()->user()->projects->where('status', 1)->count(),
+            'totalProjectTermine' => auth()->user()->role == 1 ? Project::where('status', 2)->count() : auth()->user()->projects->where('status', 2)->count(),
             'clients' => ClientResource::collection(
-                Client::orderByDesc('created_at')->withCount('projects')->take(10)->get()
+                auth()->user()->role == 1 
+                ? Client::orderByDesc('created_at')->withCount('projects')->take(10)->get()
+                : Client::where('user_id', auth()->id())->orderByDesc('created_at')->withCount('projects')->take(10)->get()
             )
         ];
 
@@ -36,6 +38,9 @@ class UserController extends Controller
     public function profile(Request $request){
         $data = $request->validate([
             'name' => 'required|max:255|string',
+            'profession' => 'nullable|max:255|string',
+            'phone' => 'required|max:20',
+            'adresse' => 'required|max:255',
             'email' => ['required', 'max:255', 'email', Rule::unique('users')->where(function($q){ $q->where('id', '!=', auth('api')->id()); })],
         ]);
 
@@ -49,6 +54,29 @@ class UserController extends Controller
                 'message' => 'Une erreur s\'est produite lors de l\'enregistrement.',
             ], 419);
         }
+    }
+
+    public function updatePassword(Request $request){
+        $request->validate([
+            'password' => ['required'],
+            'newpassword' => ['required', Password::min(8)->letters()->symbols()],
+            'confirmation' => ['required', 'same:newpassword']
+        ]);
+
+        if (Hash::check($request->password, auth()->user()->password)) {
+            auth()->user()->update([
+                'password' => Hash::make($request->newpassword)
+            ]);
+
+            return response()->json([
+                'message' => 'Mot de passe mis à jour avec succès',
+                'user' => auth()->user()
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Votre mot de passe actuel est incorrecte',
+        ], 419);
     }
     /**
      * Display a listing of the resource.
@@ -74,13 +102,20 @@ class UserController extends Controller
     
         $request->validate([
             'name' => 'required|max:255|string',
+            'profession' => 'nullable|max:255|string',
+            'role' => 'required|integer',
+            'phone' => 'required|max:20',
+            'adresse' => 'required|max:255',
             'email' => ['required', 'max:255', 'email', 'unique:users,email'],
             'password' => ['required', 'max:255', Password::min(8)->letters()->symbols()]
         ]);
 
         $data = [
             'name' => $request->name,
-            'email' => $request->email,
+            'role' => $request->role,
+            'phone' => $request->phone,
+            'adresse' => $request->adresse,
+            'profession' => $request->profession,
             'password' => Hash::make($request->password),
             'status' => $request->status === true ? 1 : 0 
         ];
@@ -107,12 +142,20 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|string',
+            'profession' => 'nullable|max:255|string',
+            'phone' => 'required|max:20',
+            'adresse' => 'required|max:255',
+            'role' => 'required|integer',
             'email' => ['required', 'max:255', 'email', 'unique:users,email,'.$user->id],
             'password' => ['nullable', 'max:255', Password::min(8)->letters()->symbols()]
         ]);
 
         $data = [
             'name' => $request->name,
+            'phone' => $request->phone,
+            'adresse' => $request->adresse,
+            'role' => $request->role,
+            'profession' => $request->profession,
             'email' => $request->email,
             'password' => !empty($request->password) ? Hash::make($request->password) : $user->password,
         ];

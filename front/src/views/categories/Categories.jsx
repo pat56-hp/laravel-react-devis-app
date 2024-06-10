@@ -32,7 +32,7 @@ export default function Categories() {
     const handleSumbit = (e) => {
         e.preventDefault();
 
-        if (categorie.libelle.length === 0) {
+        if (categorie.libelle.length == 0) {
             setErrors({
                 error: 'Le libéllé est requis'
             })
@@ -54,15 +54,15 @@ export default function Categories() {
                     const response = err.response
                     setLoading(false)
                     if (response) {
-                        if (response.status === 422) {
+                        if (response.status == 422) {
                             setErrors(response.data.errors)
                         }
-                        if (response.status === 419) {
+                        if (response.status == 419) {
                             setErrors({
                                 error: response.data.message
                             })
                         }
-                        if (response.status === 401) {
+                        if (response.status == 401) {
                             navigate('/login')
                         }
                     }
@@ -81,15 +81,15 @@ export default function Categories() {
                     const response = err.response
                     setLoading(false)
                     if (response) {
-                        if (response.status === 422) {
+                        if (response.status == 422) {
                             setErrors(response.data.errors)
                         }
-                        if (response.status === 419) {
+                        if (response.status == 419) {
                             setErrors({
                                 error: response.data.message
                             })
                         }
-                        if (response.status === 401) {
+                        if (response.status == 401) {
                             navigate('/login')
                         }
                     }
@@ -112,7 +112,7 @@ export default function Categories() {
         setCategorie({
             id: cat.id,
             libelle: cat.libelle,
-            status: cat.status === 1 ? true : false,
+            status: cat.status == 1 ? true : false,
         })
         setIsUpdating(true)
     }
@@ -131,7 +131,7 @@ export default function Categories() {
             .catch(err => {
                 const response = err.response
                 setLoading(false)
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
                 
@@ -140,7 +140,7 @@ export default function Categories() {
 
     //Modification du statut
     const editStatus = (cat) => {
-        const libEdit = cat.status === 1 ? 'désactiver' : 'activer'
+        const libEdit = cat.status == 1 ? 'désactiver' : 'activer'
         if (!window.confirm(`Êtes-vous sûre de vouloir ${libEdit} de cette catégorie ?`)) {
             return
         }
@@ -154,7 +154,7 @@ export default function Categories() {
             .catch(err => {
                 const resp = err.response
                 setLoading(false)
-                if (resp && resp.status === 401) {
+                if (resp && resp.status == 401) {
                     navigate('/login')
                 }
             })
@@ -172,7 +172,7 @@ export default function Categories() {
             .catch(err => {
                 const resp = err.response
                 setLoading(false)
-                if (resp && resp.status === 401) {
+                if (resp && resp.status == 401) {
                     navigate('/login')
                 }
             })
@@ -235,9 +235,9 @@ export default function Categories() {
                                                         <td>{cat.total_projet}</td>
                                                         <td>
                                                             <span 
-                                                                className={`badge badge-${cat.status === 1 ? 'success' : 'danger'}`}
+                                                                className={`badge badge-${cat.status == 1 ? 'success' : 'danger'}`}
                                                             >
-                                                                {cat.status === 1 ? 'Active' : 'Inactive'}
+                                                                {cat.status == 1 ? 'Active' : 'Inactive'}
                                                             </span>
                                                         </td>
                                                         <td>{cat.created_at}</td>
@@ -251,8 +251,8 @@ export default function Categories() {
                                                             </button>
                                                             <button 
                                                                 onClick={() => editStatus(cat)}
-                                                                className='ml-2 btn btn-rounded btn-warning p-1' title={cat.status === 1 ? 'Désactiver' : 'Activer'}>
-                                                                <i className={ cat.status === 1 ? 'mdi mdi-lock-open' : 'mdi mdi-lock'}></i>
+                                                                className='ml-2 btn btn-rounded btn-warning p-1' title={cat.status == 1 ? 'Désactiver' : 'Activer'}>
+                                                                <i className={ cat.status == 1 ? 'mdi mdi-lock-open' : 'mdi mdi-lock'}></i>
                                                             </button>
                                                             <button onClick={() => deleteCategory(cat)} className='ml-2 btn btn-rounded btn-danger p-1'><i className='mdi mdi-delete'></i></button>
                                                         </td>

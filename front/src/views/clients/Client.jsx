@@ -6,10 +6,12 @@ import axiosClient from '../../axios-client'
 import { useNavigate } from 'react-router-dom'
 import { tailChase } from 'ldrs'
 import { toast } from 'react-toastify'
+import { useStateContext } from '../../contexts/ContextProvider'
 
 export default function Client() {
 
     tailChase.register()
+    const {user} = useStateContext()
     const [errors, setErrors] = useState(null)
     const [isUpdating, setIsUpdating] = useState(false)
     const [loading, setLoadding] = useState(false)
@@ -30,7 +32,7 @@ export default function Client() {
         
         setIsSumbit(true)
         setTimeout(() => {
-            if (client.name.length === 0) {
+            if (client.name.length == 0) {
                 setErrors({
                     name: 'Le nom est requis'
                 })
@@ -78,15 +80,15 @@ export default function Client() {
         }).catch(err => {
             const response = err.response
             if (response) {
-                if (response.status === 422) {
-                    setErrors(response.data)
+                if (response.status == 422) {
+                    setErrors(response.data.errors)
                 }
-                else if (response.status === 419) {
+                else if (response.status == 419) {
                     setErrors({
                         error: response.message
                     })
                 }
-                else if (response.status === 401) {
+                else if (response.status == 401) {
                     navigate('/login')
                 }
             }
@@ -112,15 +114,15 @@ export default function Client() {
         }).catch(err => {
             const response = err.response
             if (response) {
-                if (response.status === 422) {
-                    setErrors(response.data)
+                if (response.status == 422) {
+                    setErrors(response.data.errors)
                 }
-                else if (response.status === 419) {
+                else if (response.status == 419) {
                     setErrors({
                         error: response.message
                     })
                 }
-                else if (response.status === 401) {
+                else if (response.status == 401) {
                     localStorage.removeItem('ACCESS_TOKEN')
                     navigate('/login')
                 }
@@ -143,9 +145,9 @@ export default function Client() {
                 const resp = err.response
                 if (resp) {
                     setLoadding(false)
-                    if (resp.status === 419) {
+                    if (resp.status == 419) {
                         console.log(resp.data)
-                    }else if(resp.status === 401){
+                    }else if(resp.status == 401){
                         navigate('/login')
                     }
                 }
@@ -185,7 +187,7 @@ export default function Client() {
                 const response = err.response
 
                 setLoadding(false)
-                if (response && response.status === 401) {
+                if (response && response.status == 401) {
                     navigate('/login')
                 }
             })
@@ -244,7 +246,7 @@ export default function Client() {
                                                     {cl.email && <><br/> <span className='mdi mdi-email'></span> {cl.email}</>}
                                                 </td>
                                                 <td>{cl.total_project}</td>
-                                                <td>{cl.created_at}</td>
+                                                <td>{cl.created_at}  {cl.user && user.role == 1 && `par ${cl.user.name}`}</td>
                                                 <td>
                                                     <button 
                                                         onClick={() => openModalToUpdate(cl)}

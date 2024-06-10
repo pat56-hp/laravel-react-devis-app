@@ -4,8 +4,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import axiosClient from '../../axios-client'
 import { toast } from 'react-toastify'
 import number_format from "../../helpers/numberFormat";
+import { useStateContext } from '../../contexts/ContextProvider'
 
 export default function Facture() {
+    const {user} = useStateContext()
     const [factures, setFactures] = useState([])
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
@@ -23,7 +25,7 @@ export default function Facture() {
             })
             .catch(err => {
                 const resp = err.response
-                if (resp && resp.status === 401) {
+                if (resp && resp.status == 401) {
                     navigate('/login')
                 }
                 setLoading(false)
@@ -43,7 +45,7 @@ export default function Facture() {
             })
             .catch(err => {
                 const resp = err.response
-                if(resp && resp.status === 401){
+                if(resp && resp.status == 401){
                     navigate('/login')
                 }
                 setLoading(false)
@@ -105,10 +107,10 @@ export default function Facture() {
                                                         <td>{facture.client}</td>
                                                         <td>{number_format(facture.total, 0, ' ', ' ')} FCFA</td>
                                                         <td>
-                                                            {facture.status === 0 && <span className="badge badge-warning">Impayée</span>}
-                                                            {facture.status === 1 && <span className="badge badge-primary">Payée</span>}
+                                                            {facture.status == 0 && <span className="badge badge-warning">Impayée</span>}
+                                                            {facture.status == 1 && <span className="badge badge-primary">Payée</span>}
                                                         </td>
-                                                        <td>{facture.created_at}</td>
+                                                        <td>{facture.created_at}  {facture.user && user.role == 1 && `par ${facture.user.name}`}</td>
                                                         <td>
                                                             <button
                                                                 title='Modifier'
