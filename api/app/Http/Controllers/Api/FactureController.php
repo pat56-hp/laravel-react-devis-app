@@ -102,7 +102,7 @@ class FactureController extends Controller
      */
     public function show(Facture $facture)
     {
-        $facture->load(['elements', 'project']);
+        $facture->load(['elements', 'project', 'user']);
         return response()->json([
             'facture' => $facture
         ]);

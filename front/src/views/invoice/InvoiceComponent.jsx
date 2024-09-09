@@ -55,7 +55,7 @@ const InvoiceComponent = ({ facture }) => {
                     <Text style={{fontSize: "14px", fontWeight: "bold"}}>Facturé à : <Text style={{fontSize: "12px"}}>{facture.project?.client.name}</Text></Text>
                     <Text style={{fontSize: "14px", fontWeight: "bold"}}>Contact : <Text style={{fontSize: "12px"}}>{facture.project?.client.phone}</Text></Text>
                     <Text style={{fontSize: "14px", fontWeight: "bold"}}>Projet : {facture.project?.title}</Text>
-                    <Text style={{fontSize: "14px", fontWeight: "bold"}}>Temps d'exécution : <Text style={{fontSize: "12px"}}>...</Text></Text>
+                    <Text style={{fontSize: "14px", fontWeight: "bold"}}>Temps d'exécution : <Text style={{fontSize: "12px"}}>Du {getDate(facture.project?.begin_date)} au {getDate(facture.project?.end_date)}</Text></Text>
                 </View>
             </View>
             <View>
